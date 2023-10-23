@@ -1,0 +1,41 @@
+Screen {
+        
+    layout: grid;
+    background: black;
+
+}
+#parentCont {
+
+    content-align: center middle;
+    border: white solid;
+
+    column-span: 1;
+    row-span: 1;
+
+
+}
+#parentContTwo {
+
+    content-align: center middle;
+    border: white solid;
+
+    column-span: 1;
+    row-span: 1;
+
+
+}
+#contOne {
+
+    height: 50%;
+
+}
+#contTwo {
+
+    height: 40%;
+
+}
+#contThree {
+
+    height: 10%;
+
+}

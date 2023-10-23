@@ -1,0 +1,362 @@
+$background: black;
+$accent: white;
+
+Screen {
+
+    background: black;
+    color: white;
+    align: center middle;   
+
+}
+
+.mainMenuOptions {
+
+    content-align: center middle;
+    text-align: left;
+    align: center middle;
+    padding: 0 0;
+    margin: 0 0;
+
+}
+ListView {
+
+    text-align: left;
+
+}
+
+ListItem {
+
+    transition: color 10ms in_out_cubic;    
+    content-align: center middle;
+    text-align: left;
+    align: center middle;
+    background: black; 
+ 
+
+}
+#inventoryVert {
+
+    overflow-y: auto;
+    text-align: left;
+    border: black solid;
+    height: 45%;
+
+}
+#invContainer {
+
+    text-align: left;
+    height: 34%;
+    color: gray;
+    border: black solid;
+
+}
+#underline {
+
+    color: white;
+    margin: 0;
+    padding: 0;
+
+}
+.ImprovedList {
+
+    text-align: left;
+    color: gray; 
+
+}
+.ImprovedListItem {
+
+    align: left middle;
+    text-align: left;
+    width: 100%;
+
+}
+#MaterialList {
+
+    text-align: left;
+    color: gray; 
+
+}
+.invListItem {
+
+    align: left middle;
+    text-align: left;
+    width: 100%;
+
+}
+#mainTitle {
+
+    content-align: center middle;
+    text-align: center;
+    align-horizontal: center;
+    text-style: reverse;    
+
+}
+.menuListItem {
+
+    text-align: left;
+
+}
+#mainSubtitle {
+
+    content-align: center middle;
+    text-align: center;
+    align-horizontal: center; 
+    color: gray;  
+    offset: 0 2;
+
+}
+
+DifficultyScreen {
+
+    background: black;
+    color: white;
+    text-align: center;
+    align: center middle;   
+    content-align: center middle;
+
+}
+
+.disabledList.--highlight {
+
+    color: gray;
+
+}
+
+.disabledList {
+
+    color: gray;
+
+}
+
+#inventoryType {
+
+    margin-top: 1;
+    text-style: reverse;
+    width: 100%;
+
+}
+.container {
+
+    layout: grid;
+    grid-size: 5;
+    grid-columns: 2fr 1fr;
+    grid-rows: 1fr;
+
+}
+NewListItem.--selected.--highlight {
+
+    color: $secondary;
+
+}
+.--selected {
+
+    color: $secondary 30%;
+
+}
+.hiddenSelector .selector {
+
+    visibility: hidden;
+
+}
+.hiddenSelector {
+
+    color: gray;
+
+}  
+
+NewListItem.--highlight {
+    
+    color: white;
+    text-align: left;
+
+}
+NewListItem {
+
+    color: gray;
+    text-align: left;
+
+}
+
+#GoldAmount {
+
+    color: #ffb405;
+
+}
+#one { /* Status Info*/
+
+    content-align: center middle;
+    align: center middle;
+    text-align: left;
+
+    border-title-align: center;
+    border: gray solid;
+
+    layout: vertical;
+    
+    column-span: 1;
+    row-span: 1;
+
+}
+#two { /* Game Info */
+    
+    content-align: center middle;
+    align: center middle;
+    text-align: left;
+
+    border-title-align: center;
+    border: gray solid;
+    
+    column-span: 3;
+    row-span: 5;
+
+}
+#three { /* Player Equipment & Info */
+
+    content-align: center middle;
+    align: center middle;
+    text-align: left;
+
+    border-title-align: center;
+    border: gray solid;
+
+    column-span: 1;
+    row-span: 5;
+
+}
+#four { /* Inventory */
+
+    content-align: center middle;
+    align: center middle;
+    text-align: left;
+
+    border-title-align: center;
+    border: gray solid;
+    
+
+    column-span: 1;
+    row-span: 5;
+
+}
+ProgressBar {
+
+    width: 80%;
+    height: 3;
+    border: black solid;
+    color: $secondary;
+
+}
+ProgressBar .bar--complete {
+
+    color: $secondary;
+    background: $secondary 30%;
+
+}
+Static {
+
+    content-align: center middle;
+
+}
+#ListOptions {
+
+    content-align: center middle;
+    align: center middle;
+
+    height: 20%;
+    width: 80%;
+
+}
+#PresentOption {
+
+    content-align: center middle;
+    text-align: center;
+    align: center middle;
+
+    height: 50%;
+    width: 80%;
+
+    border-title-align: center;
+    border: gray ascii;
+}
+#EquippedItems {
+
+    border-title-align: center;
+    border: black solid;
+    
+    margin: 1 0 1 0;
+
+    text-align: left;
+}
+#one:focus-within {
+
+    transition: opacity 100ms in_out_cubic;
+
+    content-align: center middle;
+    align: center middle;
+
+    border-title-align: center;
+    border: white solid;
+
+    layout: vertical;
+    
+    column-span: 1;
+    row-span: 1;
+
+}
+#two:focus-within {
+    
+    transition: opacity 100ms in_out_cubic;
+
+    content-align: center middle;
+    align: center middle;
+
+
+    border-title-align: center;
+    border: white solid;
+    
+    column-span: 3;
+    row-span: 5;
+
+}
+#three:focus-within {
+
+    transition: opacity 100ms in_out_cubic;
+
+    content-align: center middle;
+    align: center middle;
+
+    border-title-align: center;
+    border: white solid;
+
+    column-span: 5;
+    row-span: 5;
+
+}
+#four:focus-within {
+
+    transition: opacity 100ms in_out_cubic;
+
+    content-align: center middle;
+    align: center middle;
+
+    border-title-align: center;
+    border: white solid;
+    
+
+    column-span: 1;
+    row-span: 4;
+
+}
+
+.rareItemIn {
+
+    transition: color 25ms in_cubic;
+    color: blue
+
+}
+
+.rareItemOut {
+
+    transition: color 25ms out_cubic;
+    color: white
+
+}
