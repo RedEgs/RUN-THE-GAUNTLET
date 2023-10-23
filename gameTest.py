@@ -451,28 +451,6 @@ class App(App[None]):  # Main game class containing and handling the game
 
     # SECTION - Random Functions
 
-    def fixName(self, name, num):
-        currentChar = len(name)
-        requiredSpace = num
-        remainingSpace = requiredSpace - currentChar
-
-        finalName = name + " " * remainingSpace
-
-        return finalName
-
-    def extractInt(self, input_string):
-        import re
-
-        # Use regular expression to find the first number in the string
-        match = re.search(r'\d+', input_string)
-
-        if match:
-            # Extract and return the matched number as an integer
-            return int(match.group())
-        else:
-            # Return None if no number is found in the string
-            return None
-
     def switchInvTabs(self):
         AudioEngine.playSound("switch35")
 
