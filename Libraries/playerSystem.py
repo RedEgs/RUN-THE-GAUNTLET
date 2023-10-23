@@ -1,4 +1,6 @@
-import random, time, ItemSystem
+import random
+import time
+import ItemSystem
 
 
 def InitPlayer():
@@ -137,7 +139,8 @@ class PlayerInventory:
                 return True
             elif self.emptySlot == False:
                 self.slotCounter += 1
-                inventory[f"slot{self.slotCounter}"] = item.addInv(self.slotCounter)
+                inventory[f"slot{self.slotCounter}"] = item.addInv(
+                    self.slotCounter)
 
                 return True
 
@@ -157,9 +160,11 @@ class PlayerInventory:
             self.newSlotCounter = int(
                 item["slot"]
             )  # changes to the value of the removed item
-            self.emptySlot = True  # Changes for addItem(self) function validation
+            # Changes for addItem(self) function validation
+            self.emptySlot = True
 
-            inventory.pop(f"slot{slot}")  # removes the desired item from the dictionary
+            # removes the desired item from the dictionary
+            inventory.pop(f"slot{slot}")
             item["memLocation"].removeInv()  # changes the item slot
 
             return f"Removed item in slot{slot}"
@@ -252,4 +257,3 @@ class Player:
 
     def getBody(self):
         return self.body
-

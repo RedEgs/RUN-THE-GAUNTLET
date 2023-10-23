@@ -13,7 +13,7 @@ from textual.widgets import (
     Button,
     Input,
     Label,
-    ListView,   
+    ListView,
     ListItem,
     Markdown,
     Header,
@@ -34,10 +34,11 @@ from rich.text import Text
 from rich_pixels import Pixels
 from rich.console import Console
 
-from redegsTextual import *
-from redegsGameSystems import *
+from Libraries.redegsTextual import *
+from Libraries.redegsGameSystems import *
 
-import playerSystems, ItemSystem
+import Libraries.playerSystem as playerSystem
+import Libraries.ItemSystem as ItemSystem
 
 
 AudioEngine = Audio()
@@ -47,7 +48,7 @@ AudioEngine.load()
 class App(App[None]):  # Main game class containing and handling the game
     CSS_PATH = "stylesheet.tcss"  # The path of the stylesheet
 
-    player = playerSystems.InitPlayer()
+    player = playerSystem.InitPlayer()
 
     currentInventoryList = None
 
@@ -149,24 +150,28 @@ class App(App[None]):  # Main game class containing and handling the game
             # SECTION - Inventory
             with self.Four:
                 inventory = self.player.getBody().getPlayerInventory()
-            
-                # Materials, Items, Consumables, Weapons, Armour
-                # ---> 
 
-                self.MaterialList = ListView(id="MaterialList").add_class("hiddenSelector")
-                self.ItemsList = ListView(id="ItemsList").add_class("hiddenSelector")
-                self.ConsumablesList = ListView(id="ConsumablesList").add_class("hiddenSelector")
-                self.WeaponsList = ListView(id="WeaponsList").add_class("hiddenSelector")
-                self.ArmourList = ListView(id="ArmourList").add_class("hiddenSelector")
-                self.InventoryList = ListView(id="InventoryList").add_class("hiddenSelector")
+                # Materials, Items, Consumables, Weapons, Armour
+                # --->
+
+                self.MaterialList = ListView(
+                    id="MaterialList").add_class("hiddenSelector")
+                self.ItemsList = ListView(
+                    id="ItemsList").add_class("hiddenSelector")
+                self.ConsumablesList = ListView(
+                    id="ConsumablesList").add_class("hiddenSelector")
+                self.WeaponsList = ListView(
+                    id="WeaponsList").add_class("hiddenSelector")
+                self.ArmourList = ListView(
+                    id="ArmourList").add_class("hiddenSelector")
+                self.InventoryList = ListView(
+                    id="InventoryList").add_class("hiddenSelector")
                 #######
 
-                self.InventoryTab = ContentSwitcher(initial="InventoryContainer")
+                self.InventoryTab = ContentSwitcher(
+                    initial="InventoryContainer")
 
-                
-                
                 yield Static("< All >", id="inventoryType")
-
 
                 self.invContainer = Vertical(id="inventoryVert")
                 with self.invContainer:
@@ -185,7 +190,7 @@ class App(App[None]):  # Main game class containing and handling the game
                             yield Static(" SLT | NAME          | CNT | WGT         ")
                             yield Rule(id="underline")
 
-                            yield self.ConsumablesList            
+                            yield self.ConsumablesList
                         with Container(id="WeaponsContainer"):
                             yield Static(" SLT | NAME          | CNT | WGT         ")
                             yield Rule(id="underline")
@@ -216,16 +221,14 @@ class App(App[None]):  # Main game class containing and handling the game
                     else:
                         listview.toggle_class("hiddenSelector")
                         listview.add_class("ImprovedList")
-            
 
-                
             #!SECTION
     #!SECTION
 
     # SECTION - Inventory Handling
     # * Handles Textual related Inventory Stuff
 
-    #NOTE - Equals the first default inventory that is selected
+    # NOTE - Equals the first default inventory that is selected
 
     def appendInv(self, item):
         playerInventory = self.player.getBody().getPlayerInventory()
@@ -236,53 +239,66 @@ class App(App[None]):  # Main game class containing and handling the game
 
         if itemType == "material":
             if stored:
-                #" SLT | NAME          | CNT | WGT         "
-                self.query_one("#MaterialList").append(NewListItem(f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
-                self.query_one("#InventoryList").append(NewListItem(f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
+                # " SLT | NAME          | CNT | WGT         "
+                self.query_one("#MaterialList").append(NewListItem(
+                    f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
+                self.query_one("#InventoryList").append(NewListItem(
+                    f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
             else:
                 pass
 
         elif itemType == "item":
             if stored:
 
-                self.query_one("#ItemsList").append(NewListItem(f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
-                self.query_one("#InventoryList").append(NewListItem(f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
+                self.query_one("#ItemsList").append(NewListItem(
+                    f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
+                self.query_one("#InventoryList").append(NewListItem(
+                    f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
             else:
                 pass
-            
+
         elif itemType == "consumable":
-            
+
             if stored:
 
-                self.query_one("#ConsumablesList").append(NewListItem(f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
-                self.query_one("#InventoryList").append(NewListItem(f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
+                self.query_one("#ConsumablesList").append(NewListItem(
+                    f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
+                self.query_one("#InventoryList").append(NewListItem(
+                    f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
             else:
                 pass
 
         elif itemType == "weapon":
             if stored:
 
-                self.query_one("#WeaponsList").append(NewListItem(f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
-                self.query_one("#InventoryList").append(NewListItem(f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
+                self.query_one("#WeaponsList").append(NewListItem(
+                    f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
+                self.query_one("#InventoryList").append(NewListItem(
+                    f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
             else:
                 pass
 
         elif itemType == "armour":
             if stored:
 
-                self.query_one("#ArmourList").append(NewListItem(f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
-                self.query_one("#InventoryList").append(NewListItem(f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
+                self.query_one("#ArmourList").append(NewListItem(
+                    f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
+                self.query_one("#InventoryList").append(NewListItem(
+                    f"{self.fixName(str(item.slot), 3)}| {self.fixName(item.name, 14)}|  {self.fixName(str(item.itemCount), 3)}| {item.weight} ", 2, id=f"item{item.slot}", classes="invListItem"))
             else:
                 pass
-    
+
     def loadMaterialList(self, index):
         if self.player.getBody().getPlayerInventory().getSlot(str(index)) is not None:
             item = self.player.getBody().getPlayerInventory().getSlot(str(index))
             print(item)
             self.query_one("#ItmName").update(f"Item Name: {item['name']}")
-            self.query_one("#ItmDesc").update(f"Item Description: {item['itemDesc']}")
-            self.query_one("#ItmCount").update(f"Item Count: {item['itemCount']}")
-            self.query_one("#ItmWeight").update(f"Item Weight: {item['weight']}")
+            self.query_one("#ItmDesc").update(
+                f"Item Description: {item['itemDesc']}")
+            self.query_one("#ItmCount").update(
+                f"Item Count: {item['itemCount']}")
+            self.query_one("#ItmWeight").update(
+                f"Item Weight: {item['weight']}")
         else:
             print("Skipped Item")
 
@@ -291,10 +307,11 @@ class App(App[None]):  # Main game class containing and handling the game
     # SECTION - Generally Other Events
     # * Contains Other Events. For example blur, focus etc.
 
-    #NOTE - For hiddenSelector Handling
+    # NOTE - For hiddenSelector Handling
     def on_descendant_blur(self, event) -> None:
 
-        if event.widget.id is None: pass
+        if event.widget.id is None:
+            pass
         else:
             if self.gSwitched == True:
                 if event.widget.id == "MaterialList":
@@ -325,11 +342,15 @@ class App(App[None]):  # Main game class containing and handling the game
     # * Events for handling all shortcuts.
 
     def key_f(self) -> None:
-        ironBar = ItemSystem.Item("Iron Bar", "12", "A Big Iron Bar", "material") 
+        ironBar = ItemSystem.Item(
+            "Iron Bar", "12", "A Big Iron Bar", "material")
         ironSword = ItemSystem.Item("Iron Sword", "5", "Big sword", "weapon")
-        manaPotion = ItemSystem.Item("Mana Potion", "0.4", "Restores Mana", "consumable")
-        ironHelmet = ItemSystem.Item("Iron Helmet", "1.2", "Gives 10 Defense", "armour")    
-        glassBall = ItemSystem.Item("Glass Ball", "0.7", "Does Glass Things" ,"item")
+        manaPotion = ItemSystem.Item(
+            "Mana Potion", "0.4", "Restores Mana", "consumable")
+        ironHelmet = ItemSystem.Item(
+            "Iron Helmet", "1.2", "Gives 10 Defense", "armour")
+        glassBall = ItemSystem.Item(
+            "Glass Ball", "0.7", "Does Glass Things", "item")
 
         self.appendInv(ironBar)
         self.appendInv(ironSword)
@@ -338,14 +359,17 @@ class App(App[None]):  # Main game class containing and handling the game
         self.appendInv(glassBall)
 
     currentTabTracker = 6
+
     def key_g(self) -> None:
         self.gSwitched = True
         self.switchInvTabs()
 
         if self.ItemSelected == False:
-            self.loadMaterialList(self.extractInt(str(self.currentInventoryList.highlighted_child.id)))
+            self.loadMaterialList(self.extractInt(
+                str(self.currentInventoryList.highlighted_child.id)))
 
     keyhTracker = True
+
     def key_h(self) -> None:
         if self.keyhTracker == True:
             self.query_one("#invContainer").styles.visibility = "hidden"
@@ -367,18 +391,21 @@ class App(App[None]):  # Main game class containing and handling the game
 
     @on(ListView.Highlighted)  # Updates Any of the list views on highlight
     def HighlightUpdate(self, event: ListView.Highlighted) -> None:
-        if event is None or event.list_view.index is None: pass
+        if event is None or event.list_view.index is None:
+            pass
         else:
             index = self.extractInt(str(event.list_view.highlighted_child.id))
 
             if self.ItemSelected == False:
-                self.loadMaterialList(self.extractInt(str(event.list_view.highlighted_child.id)))
-            else: pass
+                self.loadMaterialList(self.extractInt(
+                    str(event.list_view.highlighted_child.id)))
+            else:
+                pass
 
             print(f"current ListView = {event.list_view}")
             print(f"current Item Number = {index}")
-            print(f"item selected = {index}")      
-            
+            print(f"item selected = {index}")
+
     @on(ListView.Highlighted)  # Handles audio to do with list views
     def HighlightAudio(self, event: ListView.Highlighted) -> None:
         AudioEngine.playSound("click1")
@@ -386,15 +413,19 @@ class App(App[None]):  # Main game class containing and handling the game
     ItemSelected = False
     selectedItem = None
 
-    @on(ListView.Selected)  # Handles ListItem Selection for the inventory + Audio Selection
+    # Handles ListItem Selection for the inventory + Audio Selection
+    @on(ListView.Selected)
     def selectHandler(self, event: ListView.Selected) -> None:
         AudioEngine.playSound("click6")
 
-        print(f"parent = {event.item.parent.parent}") # Prints the parent of the container 
-        if event.item.parent.parent.id is not "InventoryContainer": pass # Passes if its not an inventory container.
-        else:  
+        # Prints the parent of the container
+        print(f"parent = {event.item.parent.parent}")
+        if event.item.parent.parent.id is not "InventoryContainer":
+            pass  # Passes if its not an inventory container.
+        else:
             if self.ItemSelected == True and self.selectedItem.id == event.item.id:
-                self.query(f"#{self.selectedItem.id}").toggle_class("--selected")
+                self.query(f"#{self.selectedItem.id}").toggle_class(
+                    "--selected")
                 self.ItemSelected = False
                 self.selectedItem = None
 
@@ -408,7 +439,8 @@ class App(App[None]):  # Main game class containing and handling the game
 
             elif self.selectedItem.id != event.item.id:
                 print(event.item.id)
-                self.query(f"#{self.selectedItem.id}").toggle_class("--selected")
+                self.query(f"#{self.selectedItem.id}").toggle_class(
+                    "--selected")
                 self.query(f"#{event.item.id}").toggle_class("--selected")
                 self.ItemSelected = True
                 self.selectedItem = event.item
@@ -427,20 +459,20 @@ class App(App[None]):  # Main game class containing and handling the game
         finalName = name + " " * remainingSpace
 
         return finalName
-    
+
     def extractInt(self, input_string):
         import re
-        
+
         # Use regular expression to find the first number in the string
         match = re.search(r'\d+', input_string)
-        
+
         if match:
             # Extract and return the matched number as an integer
             return int(match.group())
         else:
             # Return None if no number is found in the string
             return None
-    
+
     def switchInvTabs(self):
         AudioEngine.playSound("switch35")
 
@@ -448,7 +480,7 @@ class App(App[None]):  # Main game class containing and handling the game
             self.query_one("#inventoryType").update("< Materials >")
             self.currentTabTracker = 2
 
-            self.query_one(ContentSwitcher).current = "MaterialContainer"  
+            self.query_one(ContentSwitcher).current = "MaterialContainer"
             self.currentInventoryList = self.query_one("#MaterialList")
             self.loadMaterialList(self.currentInventoryList.index)
 
@@ -465,7 +497,7 @@ class App(App[None]):  # Main game class containing and handling the game
             self.currentTabTracker = 4
 
             self.query_one(ContentSwitcher).current = "ConsumablesContainer"
-            self.currentInventoryList = self.query_one("#ConsumablesList") 
+            self.currentInventoryList = self.query_one("#ConsumablesList")
             self.loadMaterialList(self.currentInventoryList.index)
 
         elif self.currentTabTracker == 4:
@@ -473,7 +505,7 @@ class App(App[None]):  # Main game class containing and handling the game
             self.currentTabTracker = 5
 
             self.query_one(ContentSwitcher).current = "WeaponsContainer"
-            self.currentInventoryList = self.query_one("#WeaponsList")   
+            self.currentInventoryList = self.query_one("#WeaponsList")
             self.loadMaterialList(self.currentInventoryList.index)
 
         elif self.currentTabTracker == 5:
@@ -481,8 +513,8 @@ class App(App[None]):  # Main game class containing and handling the game
             self.currentTabTracker = 6
 
             self.query_one(ContentSwitcher).current = "ArmourContainer"
-            self.currentInventoryList = self.query_one("#ArmourList")  
-            self.loadMaterialList(self.currentInventoryList.index)  
+            self.currentInventoryList = self.query_one("#ArmourList")
+            self.loadMaterialList(self.currentInventoryList.index)
 
         elif self.currentTabTracker == 6:
             self.query_one("#inventoryType").update("< All >")
@@ -490,11 +522,11 @@ class App(App[None]):  # Main game class containing and handling the game
 
             self.query_one(ContentSwitcher).current = "InventoryContainer"
             self.currentInventoryList = self.query_one("#InventoryList")
-            self.loadMaterialList(self.currentInventoryList.index)  
+            self.loadMaterialList(self.currentInventoryList.index)
 
     #!SECTION
 
-    #ANCHOR - on_mount()
+    # ANCHOR - on_mount()
     # * First thing ran on startup
     def on_mount(self) -> None:
         FullscreenApplication()
