@@ -1,3 +1,4 @@
+from cryptography.fernet import Fernet
 import pygame
 import os
 
@@ -28,13 +29,50 @@ class Audio:
             self.soundEffects[sound_name].play()
 
 
-def findSave(name, path):
-    for root, dirs, files in os.walk(path):
-        if name in files:
-            return True
+class Persistents:
+    def __init__(self, saveName):
+        import base64
 
+        self.saveName = saveName
+        self.savePath = f"{os.getcwd()}/{saveName}"
+
+        self.key = Fernet.generate_key()
+        self.fernet = Fernet(self.key)
+
+        # Code for creating a save slot
+        if os.path.isdir(str(self.saveName)):
+            encFile = open(f"{self.savePath}\{self.saveName}.enc", "rb")
+            self.key = encFile.read()
+            encFile.close()
+        else:
+            print(os.mkdir(self.saveName))  # make a save slot
+
+            encFile = open(f"{self.savePath}\{saveName}.enc", "wb")
+            encFile.write(self.key)
+            encFile.close()
+
+        # End of code for creatisng a save slot
+
+    def getEncKey(self):
+        encFile = open(f"{self.savePath}\{self.saveName}.enc", "rb")
+        self.key = encFile.read()
+        encFile.close()
+
+    def saveData(self, data, dataName):
+        dataFile = open(f"{self.savePath}\{dataName}.dta", "ab")
+        dataFile.write(self.fernet.encrypt(data.encode()))
+
+        dataFile.close()
+
+    def readData(self, dataName):
+        dataFile = open(f"{self.savePath}\{dataName}.dta", "rb")
+        data = dataFile.read()
+
+        dataFile.close()
+        return self.fernet.decrypt(data).decode()
 
 # SECTION - Misc Functions
+
 
 def fixName(self, name, num):
     currentChar = len(name)
@@ -58,3 +96,13 @@ def extractInt(self, input_string):
     else:
         # Return None if no number is found in the string
         return None
+
+
+persistents = Persistents("saveSlot1")
+
+
+username = "redegs"
+password = "123"
+
+persistents.saveData(f"{username,password}", "userDetails")
+print(persistents.readData("userDetails"))
