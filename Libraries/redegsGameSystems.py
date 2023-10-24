@@ -96,13 +96,3 @@ def extractInt(self, input_string):
     else:
         # Return None if no number is found in the string
         return None
-
-
-persistents = Persistents("saveSlot1")
-
-
-username = "redegs"
-password = "123"
-
-persistents.saveData(f"{username,password}", "userDetails")
-print(persistents.readData("userDetails"))
