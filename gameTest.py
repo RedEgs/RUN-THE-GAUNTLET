@@ -37,7 +37,7 @@ from rich.console import Console
 from Libraries.redegsTextual import *
 from Libraries.redegsGameSystems import *
 
-import Libraries.playerSystem as playerSystem
+import Libraries.PlayerSystem as playerSystem
 import Libraries.ItemSystem as ItemSystem
 
 

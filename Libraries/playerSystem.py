@@ -237,6 +237,9 @@ class Body:
         age = self.body["age"]
         age + amount
 
+    def getHealth(self):
+        return self.body["health"]
+
     def getBody(self):
         return self.body
 
@@ -251,6 +254,9 @@ class Player:
     def __init__(self, body):
         self.name = randomName()
         self.body = body
+
+    def isNPC(self):
+        return False
 
     def getName(self):
         return self.name

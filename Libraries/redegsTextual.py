@@ -12,7 +12,7 @@ from textual.widgets import Static, Button, Input, Label, ListView, ListItem, Ma
 from textual.keys import Keys
 from textual import _easing
 from rich.text import Text
-import os 
+import os
 
 
 class NewListItem(ListItem):
@@ -71,12 +71,9 @@ class NewListItem(ListItem):
             yield Label(f" {self.selectors[int(self.selector)][1]}", classes="selector")
 
 
-
-
-
 def FullscreenApplication():
-    import win32gui, win32con
+    import win32gui
+    import win32con
 
     hwnd = win32gui.GetForegroundWindow()
     win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
-
