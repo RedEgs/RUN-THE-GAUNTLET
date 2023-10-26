@@ -2,7 +2,8 @@
 
 def InitNPC(name, type, difficulty, AI):
     npcProp = NPCproperties()
-    body = NPCbody(npcProp)
+    arsenal = NPCarsenal()
+    body = NPCbody(npcProp, arsenal)
     npc = NPC(name, body, type, difficulty, AI)
 
     return npc
@@ -38,9 +39,10 @@ class NPC():
 
 
 class NPCbody():
-    def __init__(self, NPCproperties):
-        self.NPCproperties = NPCproperties
-        self.NPCbody = {
+    def __init__(self, NPCproperties, NPCarsenal):
+        self.properties = NPCproperties
+        self.arsenal = NPCarsenal
+        self.body = {
             "health": 100,
             "maxHealth": 100,
             "age": 15,
@@ -52,36 +54,17 @@ class NPCbody():
             "maxStamina": 100,
         }
 
-    def damage(self, amount):
-        health = self.NPCbody["health"]
-        maxHealth = self.NPCbody["health"]
-
-        if health - amount > 0:
-            health = 0
-        else:
-            health = health - amount
-
-    def heal(self, amount):
-        health = self.NPCbody["health"]
-        maxHealth = self.NPCbody["health"]
-
-        if health + amount > maxHealth:
-            health = maxHealth
-        else:
-            health = health + amount
-
-    def age(self, amount):
-        age = self.NPCbody["age"]
-        age + amount
-
     def getHealth(self):
-        return self.NPCbody["health"]
+        return self.body["health"]
 
     def getBody(self):
-        return self.NPCbody
+        return self.body
 
     def getNPCproperties(self):
-        return self.NPCproperties
+        return self.properties
+
+    def getNPCarsenal(self):
+        return self.arsenal
 
 
 class NPCproperties():
@@ -94,7 +77,6 @@ class NPCproperties():
             "strength": 0,
             "luck": 0,
         }
-
         self.talents = {
             "melee": 0,
             "aiming": 0,
@@ -148,3 +130,31 @@ class NPCproperties():
 
     def getTalents(self):
         return self.talents
+
+
+class NPCarsenal:
+    def __init__(self, max_moves=4):
+        self.max_moves = max_moves
+        self.equipped_moves = []
+
+    def equip_move(self, move):
+        if len(self.equipped_moves) < self.max_moves:
+            if move not in self.equipped_moves:
+                self.equipped_moves.append(move)
+                print(f"equips {move.getName()}.")
+            else:
+                print(f"already has {move.getName()} equipped.")
+        else:
+            print(f"can't equip more than {self.max_moves} moves.")
+
+    def unequip_move(self, move):
+        if move in self.equipped_moves:
+            self.equipped_moves.remove(move)
+            print(f"unequips {move.getName()}.")
+        else:
+            print(f"{move.getName()} equipped.")
+
+    def useMove(self, index):
+        if 0 <= index < len(self.equipped_moves):
+            move = self.equipped_moves[index]
+            return move.getName(), move.getDamage()

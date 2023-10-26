@@ -6,7 +6,8 @@ import ItemSystem
 def InitPlayer():
     pProp = PlayerProperties()
     pInv = PlayerInventory()
-    body = Body(pProp, pInv)
+    pArs = PlayerArsenal(4)
+    body = Body(pProp, pInv, pArs)
     player = Player(body)
 
     return player
@@ -198,10 +199,39 @@ class PlayerInventory:
         return self.InvStats["slots"]
 
 
+class PlayerArsenal:
+    def __init__(self, max_moves=4):
+        self.max_moves = max_moves
+        self.equipped_moves = []
+
+    def equip_move(self, move):
+        if len(self.equipped_moves) < self.max_moves:
+            if move not in self.equipped_moves:
+                self.equipped_moves.append(move)
+                print(f"equips {move.getName()}.")
+            else:
+                print(f"already has {move.getName()} equipped.")
+        else:
+            print(f"can't equip more than {self.max_moves} moves.")
+
+    def unequip_move(self, move):
+        if move in self.equipped_moves:
+            self.equipped_moves.remove(move)
+            print(f"unequips {move.getName()}.")
+        else:
+            print(f"{move.getName()} equipped.")
+
+    def useMove(self, index):
+        if 0 <= index < len(self.equipped_moves):
+            move = self.equipped_moves[index]
+            return move.getDamage()
+
+
 class Body:
-    def __init__(self, playerProperties, playerInventory):
+    def __init__(self, playerProperties, playerInventory, playerArsenal):
         self.playerInventory = playerInventory  # Corrected usage
         self.playerProperties = playerProperties
+        self.playerArsenal = playerArsenal
 
         self.body = {
             "health": 100,
@@ -215,39 +245,17 @@ class Body:
             "maxStamina": 100,
         }
 
-    def damage(self, amount):
-        health = self.body["health"]
-        maxHealth = self.body["health"]
-
-        if health - amount > 0:
-            health = 0
-        else:
-            health = health - amount
-
-    def heal(self, amount):
-        health = self.body["health"]
-        maxHealth = self.body["health"]
-
-        if health + amount > maxHealth:
-            health = maxHealth
-        else:
-            health = health + amount
-
-    def age(self, amount):
-        age = self.body["age"]
-        age + amount
-
     def getHealth(self):
         return self.body["health"]
-
-    def getBody(self):
-        return self.body
 
     def getPlayerInventory(self):
         return self.playerInventory
 
     def getPlayerProperties(self):
         return self.playerProperties
+
+    def getPlayerArsenal(self):
+        return self.playerArsenal
 
 
 class Player:
